@@ -1,0 +1,92 @@
+function [ERROR, TT, sv0, V1, S0, U0]=StatesCountriesCristian(T1,b,n)
+
+%load dataT1
+% load dataA
+% load dataB
+% load dataE
+
+% size(T1{1})
+
+%n=[30,14,9,4];
+[TT  sv0 V S0 U0] = HOSVD_uniqual(T1, b, n);
+%25 es donde cortamos
+%n es donde vamos a cortar de todo
+
+for ii=1:length(T1)
+    V1{ii}=V{ii}(:,1:b);
+end
+
+for kk=1:10
+    close(figure(kk))
+end
+figure(1);
+[XX,YY]=size(sv0{1});
+%plot(1:XX,sv0{1})
+semilogy(1:XX,sv0{1}/sv0{1}(1));
+
+figure(2);
+[XX,YY]=size(sv0{2});
+%plot(1:XX,sv0{2})
+semilogy(1:XX,sv0{2}/sv0{2}(1));
+
+figure(3);
+[XX,YY]=size(sv0{3});
+%plot(1:XX,sv0{3})
+semilogy(1:XX,sv0{3}/sv0{3}(1));
+
+figure(4);
+[XX,YY]=size(sv0{4});
+%plot(1:XX,sv0{4})
+semilogy(1:XX,sv0{4}/sv0{4}(1));
+
+
+% sv0{1}
+% sv0{2}
+% sv0{3}
+% sv0{4}
+for i=1:length(T1)
+    ERROR{i}=abs(T1{i}-TT{i});
+    error(i)=norm(ERROR{i}(:),inf);
+end
+error;
+% save dataERROR ERROR
+
+%[AA S U sv] = hosvd(A, n);
+
+% for i=1:100
+%     ERROR1=A(i,:,:,:)-AA(i,:,:,:);
+%     %ERROR1=ERROR1.*E(i,:,:,:);
+%     error1(i)=norm(ERROR1(:),inf);
+% end
+% error1
+% [BB S U sv] = hosvd(B, n);
+% for i=1:100
+%     ERROR2=(B(i,:,:,:)-BB(i,:,:,:)).*E(i,:,:,:);
+%     error2(i)=norm(ERROR2(:),inf);
+% end
+% 
+% error2
+% 
+[norm(error, inf),norm(error)/sqrt(length(error))]%,norm(error1,inf),norm(error2,inf)]
+% [norm(error)/sqrt(length(error)),norm(error1)/sqrt(length(error1)),norm(error2)/sqrt(length(error2))]
+% 
+% function funcion=funcion(x,y,z,u)
+% %funcion=(x+1+y)*(sin(3.*pi*y-5*x+z-1))^2+(x-2*z-1)*(y-1)^3.*(sin(15.*(x+z-y))).*log(2+x.^2*y.^2+z^3)-z*(x-1)^2*y^3;
+% 
+% %funcion=(x+1)*(sin(3.*pi*y+log(z+2))-1)^2+...
+%     %(x+z)*(y-1).^3.*(sin(15.*(x+z+1))).*log(3+x.^2*y.^2+z.^3)-(x-1)^2*y^3;
+%     %LA DE SIEMPRE
+% %     funcion=x.^2*(sin(5.*pi*y+3*log(x^3+y^2+z+pi^2))-1)^2+...
+% %     2*(x+z-1)*(y-1).^3.*(sin(30.*(x+z))).*log(6+(x).^2*(y).^2+z.^3)-4*(x)^2*(y)^3.*(-z+1)^(3/2);
+% 
+% 
+%     %nueva
+%  funcion=x.^2*(sin(5.*pi*y+3*log(x^3+y^2+z+pi^2))-1)^2+...
+%     (x+z-1)*(2*y-z).*(cos(30.*(x+z))).*log(6+(x).^2*(y).^2+z.^3)-4*(x)^2*(y)^3.*(-z+1)^(3/2)+...
+% (x^2+z^2)*exp(-u)+4*(1+u^5)*sin(x*y*z*u);
+% %funcion=-funcion;
+
+%funcion=3*x*y*z-log(1+2*x^2+3*y^2+5*z^2);
+
+%funcion=4*(x+1)*(sin(3.*pi*(y+z))-1)^2*cos(pi*(x+z+1)/2)+exp(2*x*y+z-1)+...
+    %(y-1)^3*cos((z+1)/4).*(sin(15.*(x))).*log(2+x.^2*y.^2+z+1)+(x-1)^2*y^3.*(z-1);
